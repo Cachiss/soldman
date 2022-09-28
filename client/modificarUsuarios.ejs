@@ -1,0 +1,54 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelos.Usuario"%>
+<%@page import="bd.Conexion"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    
+    if(sesion.getAttribute("administrador") == null){
+        response.sendRedirect("iniciarSesion.jsp");
+    }
+    else{
+        Conexion conexion = new Conexion();
+        int id = Integer.parseInt(request.getParameter("id"));
+        List<Usuario> lista = conexion.buscarId(id);
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Modificar usuarios</title>
+        <link rel="stylesheet" href="css/modificar.css"/>
+    </head>
+    <body>
+        <div class="contenedor">
+            <h1>Modificar usuario</h1>
+            <form action="Modificar" method="POST">
+                <input type="text" class="noVisible" name="id" id="id" value="<%= lista.get(0).getId()%>">
+                <div>
+                    <label>Nombre</label> <br>
+                    <input type="text" name="nombre" id="nombre" placeholder="Nombre" value="<%= lista.get(0).getNombre()%>">
+                </div>
+
+                <div>
+                    <label>Usuario</label> <br>
+                    <input type="text" name="usuario" id="usuario" placeholder="Usuario" value="<%= lista.get(0).getUsuario()%>">
+                </div>
+
+                <div>
+                    <label>contraseña</label> <br>
+                    <input type="text" name="password" id="password" placeholder="contraseña" value="<%= lista.get(0).getPassword()%>">
+                </div>
+                <div>
+                    <button type="submit">Modificar</button>
+                </div>
+
+                <div>
+                    <a href="mostrarUsuarios.jsp" class="volver">Volver</a>
+                </div>
+            </form> 
+        </div>
+    </body>
+</html>
+<%}%>

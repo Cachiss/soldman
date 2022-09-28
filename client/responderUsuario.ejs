@@ -1,0 +1,44 @@
+
+<%@page import="bd.Conexion"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+
+    HttpSession sesion = request.getSession();
+    
+    if(sesion.getAttribute("administrador") == null){
+        response.sendRedirect("iniciarSesion.jsp");
+    }
+    else{
+    
+    Conexion conexion = new Conexion();
+    int id = Integer.parseInt(request.getParameter("id"));
+    int idMensaje = Integer.parseInt(request.getParameter("idMensaje"));
+    
+    sesion.setAttribute("idUsuario", id);
+    sesion.setAttribute("mensaje", idMensaje);
+    
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Responder</title>
+        <link rel="stylesheet" href="css/responderUsuario.css">
+    </head>
+    <body>
+        <div class="contenedor">
+            <h1 class="titulo">Responder a: <%= conexion.obtenerNombreUsuario(id)%></h1>
+            <form action="Responder" method="POST">
+                <textarea id="respuesta" name="respuesta" rows="15" cols="50" maxlength="250" ></textarea> <br>
+                <button type="submit">Enviar mensaje</button>
+            </form>
+
+            <a href="mostrarMensajes.jsp?id=<%= id%>" class="volver">Volver</a>
+        </div>
+        
+        
+        <!-- <p><%= sesion.getAttribute("idUsuario")%></p>
+        <p><%= sesion.getAttribute("mensaje")%></p> -->
+    </body>
+</html>
+<%}%>

@@ -1,0 +1,8 @@
+.siVisible{
+    color: red;
+    font-size: 15px;
+}
+
+.noVisible{
+    display: none;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Iniciar Sesión</title>
+        <link rel="stylesheet" href="client/css/login.css"/>
+        <link rel="stylesheet" href="client/css/validacion.css"/>
+    </head>
+    <body>
+        <div class="fondo">
+
+        </div>
+        <div class="contenedor">
+
+            <div class="imagen">
+                <img src="imagenes/icono-usuario.png" alt="">
+            </div>
+
+            <div class="titulo">
+                <h1>¡Bienvenido!</h1>
+            </div>
+
+            <form action="/login" method="POST" >
+                <div>
+                    <input type="email" name="email" id="email" placeholder="Correo electrónico">
+                    <span class="noVisible" id="spanEmail">Ingrese su correo electrónico</span>
+                </div>
+
+                <div>
+                    <input type="password" name="password" id="password" placeholder="Contraseña">
+                    <span class="noVisible" id="spanPassword">Ingrese su contraseña</span>
+                </div>
+                
+                <div>
+                    <button type="submit">Iniciar Sesión</button>
+                </div>
+
+                <div>
+                    <label>¿Aún no tienes cuenta?</label>
+                    <a href="registro.ejs">Registrate</a>
+                </div>
+
+                <div>
+                    <label>Ir a inicio</label>
+                    <a href="index.html">Inicio</a>
+                </div>
+            </form>
+        </div>
+
+        <script src="client/js/validacionIniciarSesion.js"></script>
+        <script src="client/js/click.js"></script>
+    </body>
+</html>

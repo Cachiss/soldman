@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Agregar Administradores</title>
+        <link rel="stylesheet" href="css/registro.css"/>
+        <link rel="stylesheet" href="css/validacion.css"/>
+    </head>
+    <body>
+        <div class="contenedor">
+            <h1>Agregar administradores</h1>
+            <span class="<%= claseSpan%>" id="spanExistente">Usuario "<%= usuario%>" existente, ingrese otro usuario</span>
+            <form action="/admin" method="POST" id="formulario" onsubmit="return validar()">
+                <div>
+                    <input type="text" name="nombre" id="nombre" placeholder="Escriba su nombre">
+                    <span class="noVisible" id="spanNombre">Ingrese un nombre</span>
+                </div>
+
+                <div>
+                    <input type="text" name="usuario" id="usuario" placeholder="Escriba un usuario">
+                    <span class="noVisible" id="spanUsuario">Ingrese un usuario</span>
+                </div>
+
+                <div>
+                    <input type="text" name="password" id="password" placeholder="Escriba una contraseña">
+                    <span class="noVisible" id="spanPassword">Ingrese una constraseña</span>
+                </div>
+
+                <div>
+                    <button type="submit">Agregar</button>
+                </div>
+
+                <div>
+                    <a href="mostrarUsuarios.jsp" class="volver">Volver</a>
+                </div>
+        </div>
+    
+        <script src="js/validacionRegistro.js"></script>
+        <script src="js/click.js"></script>
+    </body>
+</html>

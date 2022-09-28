@@ -1,0 +1,113 @@
+*{
+    font-family: 'Bai Jamjuree', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #F3F3F3;
+}
+
+.contenedor{
+    width: 90%;
+    margin: 2.5rem auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+table{
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+table th{
+    background-color: #00d292;
+    color: white;
+}
+
+table td{
+    background-color: white;
+
+}
+
+table th,tr,td{
+	border:1px solid #000;
+	width:150px;
+	height:45px;
+	vertical-align:middle;
+	text-align:center;
+}   
+
+table td .editar{
+    color: green;
+}
+
+table td .borrar{
+    color: red;
+}
+
+table td .mensaje{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    margin-top: 1.2rem;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #FFC300 ;
+}
+
+table td a{
+    text-decoration: none;
+}
+
+.agregar{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    margin-top: 1.2rem;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: deepskyblue;
+}
+
+.agregar{
+    margin-top: 1.2rem;
+}
+
+.caja-admin{
+    width: 100%;
+}
+
+nav{
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+.perfil{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.perfil img{
+    text-align: center;
+    width: 4rem;
+}
+
+.cerrar{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    margin-top: 1.2rem;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: tomato;
+}
+
+

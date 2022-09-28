@@ -1,0 +1,45 @@
+*{
+    font-family: 'roboto';
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #F3F3F3;
+}
+
+.tarjeta-mensaje{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: white;
+    width: 80%;
+    margin: auto;
+    padding: 1rem;
+}
+
+.borrar{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: tomato;
+}
+
+.responder{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #00d292;
+}
+
+.volver{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    margin-top: 1.2rem;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: deepskyblue;
+}

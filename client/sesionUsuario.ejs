@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Sesión Usuario</title>
+        <!-- <link rel="stylesheet" href="css/registro.css"/> -->
+        <!-- <link rel="stylesheet" href="css/login.css"/> -->
+        <link rel="stylesheet" href="client/css/sesionUsuario.css">
+    </head>
+    <body>
+
+        <nav>
+            <div class="perfil">
+
+                <div>
+                    <a href="editarPerfil.jsp">
+                        <img src="client/imagenes/icono-usuario.png" alt="">
+                    </a>
+                </div>
+
+                <div>
+                    <a href="editarPerfil.jsp"></a>
+                </div>
+                
+                <div>
+                    <a href="">Respuestas</a>
+                </div>
+                
+            </div>
+
+            <div>
+                <a href="Cerrar" class="cerrar">Cerrar sesión</a>
+            </div>
+        </nav>
+
+        <div class="contenedor">
+            <h1 class="titulo">Envianos tu mensaje</h1>
+            <form action="/message" method="POST">
+                <textarea id="message" name="message" rows="15" cols="50" maxlength="250" ></textarea> <br>
+                <button type="submit">Enviar mensaje</button>
+            </form>
+        </div>
+        
+        <footer>
+            
+        </footer>
+    </body>
+</html>

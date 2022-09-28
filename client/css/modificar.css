@@ -1,0 +1,26 @@
+@import url(login.css);
+
+.noVisible{
+    display: none;
+}
+
+.volver{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: deepskyblue;
+    display: block;
+}
+
+.borrar{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: tomato;
+    display: block;
+}
+

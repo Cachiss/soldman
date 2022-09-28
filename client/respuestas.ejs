@@ -1,0 +1,60 @@
+<%@page import="modelos.Respuesta"%>
+<%@page import="modelos.Mensaje"%>
+<%@page import="java.util.List"%>
+<%@page import="bd.Conexion"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%
+
+    HttpSession sesion = request.getSession();
+    
+    if(sesion.getAttribute("usuario") == null){
+        response.sendRedirect("iniciarSesion.jsp");
+    }
+    else{
+        Conexion conexion = new Conexion();
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        List<Respuesta> listaRespuestas = conexion.mostrarRespuestas(id);
+        listaRespuestas = conexion.mostrarRespuestas(id);
+
+%>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Respuestas</title>
+        <link rel="stylesheet" href="css/respuestas.css">
+    </head>
+    <body>
+        <h1 style="text-align: center;">Respuestas de administradores</h1>
+        <%
+        
+            for(int i = 0; i<listaRespuestas.size(); i++){
+        %>
+        <div class="tarjeta-mensaje">
+            <div class="nombre-mensaje">
+                <h3>Respuesta de: </h3>
+                <%= conexion.obtenerNombreAdmin(listaRespuestas.get(i).getId_administrador())%>
+            </div>
+            <br>
+            <div class="contenido-mensaje">
+                <h3>Comunicado: </h3>
+                <%= listaRespuestas.get(i).getMensaje()%>
+            </div>
+            <br>
+            <div class="contenido-borrar">
+                <a href="BorrarRespuesta?idRespuesta=<%=listaRespuestas.get(i).getId()%>&id=<%=id%>" class="borrar">Borrar</a>
+            </div>
+            <br>
+        </div>
+        <br>
+        <br>
+        <%}%>
+
+        <div style="text-align: center;">
+            <a href="sesionUsuario.jsp" class="volver">Volver</a>
+        </div>
+        <br><br>
+    </body>
+</html>
+<%}%>

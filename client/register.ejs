@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Registro</title>
+        <link rel="stylesheet" href="client/css/registro.css"/>
+        <link rel="stylesheet" href="client/css/validacion.css"/>
+    </head>
+    <body>
+        <div class="contenedor">
+
+            <div class="imagen">
+                <img src="client/imagenes/icono-usuario.png" alt="">
+            </div>
+
+            <div>
+                <h1 class="titulo">Registrar</h1> 
+            </div>
+            
+            <form action="/register" method="POST" id="formulario">
+                <div>
+                    <input type="text" name="nombre" id="nombre" placeholder="Escriba su nombre">
+                    <span class="noVisible" id="spanNombre">Ingrese un nombre</span>
+                </div>
+
+                <div>
+                    <input type="password" name="passw" id="passw" placeholder="Escriba su contraseña">
+                    <span class="noVisible" id="spanPassword">Ingrese una contraseña</span>
+                </div>
+
+                <div>
+                    <input type="email" name="email" id="email" placeholder="Escriba su correo electrónico">
+                    <span class="noVisible" id="spanEmail">Ingrese un email</span>
+                </div>
+
+                <div>
+                    <label>¿Ya tienes cuenta?</label>
+                    <a href="/login">inicia sesión</a>
+                </div>
+
+                <div>
+                    <label>Ir a inicio</label>
+                    <a href="/">Inicio</a>
+                </div>
+
+                <div>
+                    <button type="submit">Registrarse</button>
+                </div>
+            </form> 
+        </div>
+        <script src="client/js/validacionRegistro.js"></script>
+        <script src="client/js/click.js"></script>
+    </body>
+</html>

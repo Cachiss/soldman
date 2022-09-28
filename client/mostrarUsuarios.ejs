@@ -1,0 +1,117 @@
+<%@page import="modelos.Administrador"%>
+<%@page import="java.util.List"%>
+<%@page import="modelos.Usuario"%>
+<%@page import="bd.Conexion"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    HttpSession sesion = request.getSession();
+    
+    if(sesion.getAttribute("administrador") == null){
+        response.sendRedirect("iniciarSesion.jsp");
+    }
+    else{
+        Conexion conexion = new Conexion();
+        List<Usuario> listaUsuarios = conexion.mostrarUsuario();
+        int id = Integer.parseInt(sesion.getAttribute("administrador").toString());
+        List<Administrador> admin = conexion.buscarIdAdministrador(id);
+        List<Administrador> listaAdministradores = conexion.mostrarAdministrador(id);
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Administrador</title>
+        <link rel="stylesheet" href="css/mostrar.css"/>
+    </head>
+    <body>
+
+        <nav>
+            <div class="perfil">
+
+                <div>
+                    <a href="modificarAdministrador.jsp?idAdmin=<%=admin.get(0).getId()%>">
+                        <img src="imagenes/icono-usuario.png" alt="">
+                    </a>
+                </div>
+
+                <div>
+                    <a href="modificarAdministrador.jsp?idAdmin=<%=admin.get(0).getId()%>"><%= admin.get(0).getNombre()%></a>
+                </div>
+            </div>
+
+            <div>
+                <a href="Cerrar" class="cerrar">Cerrar sesión</a>
+            </div>
+        </nav>
+
+        <div class="contenedor">
+            <h1>Usuarios</h1>
+            <table class="tabla-usuarios">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Editar / Borrar</th>
+                        <th>Ver mensajes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        for(int i = 0; i<listaUsuarios.size(); i++){
+                    %>
+                    <tr>
+                        
+                        <td><%= listaUsuarios.get(i).getId()%></td>
+                        <td><%= listaUsuarios.get(i).getNombre()%></td>
+                        <td><%= listaUsuarios.get(i).getUsuario()%></td>
+                        <td><%= listaUsuarios.get(i).getPassword()%></td>
+                        <td> <a href="modificarUsuarios.jsp?id=<%=listaUsuarios.get(i).getId()%>" class="editar">Editar</a> / <a href="Borrar?id=<%=listaUsuarios.get(i).getId()%>" class="borrar">Borrar</a> </td>
+                        <td><a href="mostrarMensajes.jsp?id=<%=listaUsuarios.get(i).getId()%>" class="mensaje">Mensajes</a></td>
+                    </tr>
+                    <%     
+                        }
+                    %>
+                </tbody>
+            </table>
+            <br>
+            <div>
+                <a href="agregarUsuarios.jsp" class="agregar">Agregar usuarios</a>
+            </div>
+            <br><br><br>
+            <h1>Administradores</h1>
+            <table class="tabla-administradores">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Editar/Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        for(int i=0; i<listaAdministradores.size(); i++){
+                    %>
+                    <tr>
+                        <td><%= listaAdministradores.get(i).getId()%></td>
+                        <td><%= listaAdministradores.get(i).getNombre()%></td>
+                        <td><%= listaAdministradores.get(i).getUsuario()%></td>
+                        <td><%= listaAdministradores.get(i).getPassword()%></td>
+                        <td><a href="modificarAdministrador.jsp?idAdmin=<%=listaAdministradores.get(i).getId()%>" class="editar">Editar</a> / <a href="Borrar?id=<%=listaAdministradores.get(i).getId()%>&administrador=true" class="borrar">Borrar</a></td>
+                    </tr>
+                    <%}%>
+                </tbody>
+            </table>
+            <br>
+            <div>
+                <a href="agregarAdministradores.jsp" class="agregar">Agregar administradores</a>
+            </div>
+            <br>
+            <br>
+        </div>  
+    </body>
+</html>
+<%}%>

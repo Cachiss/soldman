@@ -1,0 +1,15 @@
+@import url(login.css);
+.contenedor{
+    padding: 1rem;
+}
+
+.volver{
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: deepskyblue;
+    width: 100%;
+    display: block;
+}
