@@ -33,3 +33,24 @@ export const Message = sequelize.define('Messages', {
         type: DataTypes.STRING,
     }
 });
+
+export const Admin = sequelize.define('Admin', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nombre: {
+        type: DataTypes.STRING,
+    },
+    password: {
+        type: DataTypes.STRING,
+    }},
+    {
+        "timestamps":false
+    });
+
+
+//relación uno a muchos
+User.hasMany(Message);
+Message.belongsTo(User);

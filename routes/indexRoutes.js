@@ -8,7 +8,8 @@ import {
     getMessage,
     postLogin, 
     postRegister,
-    postMessage
+    postMessage,
+    deleteUser
     } 
 from '../controllers/indexController.js';
 
@@ -30,6 +31,7 @@ router.get('/login', getLogin);
 router.get('/message',getMessage);
 router.get('/query',getUsers); //Ejemplo de select
 router.get('/message',getMessage);
+router.get('/mostrarUsuarios',getUsers);
 
 //http methods post
 router.post('/register', isRegister, postRegister);
@@ -42,5 +44,9 @@ router.post('/login', passport.authenticate('local', {
 }));
 router.post('/message',postMessage);
 
+//http métodos delete
+router.delete('/deleteUser/:id', deleteUser);
+//metodo get para eliminar un usuario
+router.get('/deleteUser/:id', deleteUser);
 
 export default router;

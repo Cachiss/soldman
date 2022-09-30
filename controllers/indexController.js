@@ -13,10 +13,19 @@ export const getLogin = (req, res) => {
 };
 export const getMessage = (req,res) => {
     res.render('sesionUsuario');
+
 }
+//mostramos los usuarios en la vista
 export const getUsers = async (req,res) => {
-    const users = await User.findAll();
-    console.log(users);
+    //pasamos los datos a la vista ejs para mostrarlos
+    try{
+        const users = await User.findAll();
+        res.render('mostrarUsuarios',{users});
+    }
+    catch(e){
+        console.error(e);
+        throw new Error (e);
+    }
 }
 
 //http métodos post
@@ -36,7 +45,7 @@ export const postRegister = async (req, res) => {
 };
 
 export const postLogin = async (req,res) => {
-    res.render('sesionUsuario');
+    req.session.user = req.body;
 }
 
 export const postMessage = async (req,res) => {
@@ -50,4 +59,19 @@ export const postMessage = async (req,res) => {
     console.error(`Error: ${error}`);
     throw new Error(error); //Para que se detenga la ejecución
    }
+}
+
+
+//http métodos delete
+
+export const deleteUser = async (req,res) => {
+    try {
+        const {id} = req.params;
+        await User.destroy({
+            where: {id}
+        });
+        console.log("Usuario eliminado correctamente");
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
 }

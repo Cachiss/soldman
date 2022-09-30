@@ -1,5 +1,4 @@
 import express from 'express';
-import {dirname} from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import passport from 'passport';
@@ -10,7 +9,7 @@ import {User} from './db/models.js';
 
 import routes from './routes/indexRoutes.js';
 import {PORT} from './config.js';
-import {initialize as initializePassport} from './middlewares/isLogin.js';
+import { isLogin } from './middlewares/isLogin.js';
 //instanciamos express en app
 const app = express();
 
@@ -38,21 +37,8 @@ app.use('/client',express.static(path.join(__dirname,"/client")));
 app.use(express.json()); //para poder recibir json en el body de las peticiones 
 app.use(express.urlencoded({extended: true})); //para poder recibir datos de formularios. 
 
-passport.use(new LocalStrategy({usernameField:'email'}, async (email, passw, done) => {
-    try {
-        const user = await User.findOne({where: {email}});
-        if (user == null) {
-            return done(null, false, {message: 'Email no registrado'});
-        }
-        if (user.passw === passw) {
-            return done(null, user);
-        } else {
-            return done(null, false, {message: 'Contraseña incorrecta'});
-        }
-    } catch (error) {
-        return done(error);
-    }
-}));
+passport.use(isLogin); 
+
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
     try {
