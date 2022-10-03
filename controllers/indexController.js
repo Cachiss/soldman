@@ -75,3 +75,35 @@ export const deleteUser = async (req,res) => {
         console.error(`Error: ${error}`);
     }
 }
+
+//metodo get para mostrar el formulario de actualización
+export const updateUserForm = async (req,res) => {
+    try {
+        const {id} = req.params;
+        //obtenemos los datos con el id
+        const user = await User.findOne({
+            where: {id}
+        });
+        //renderizamos la vista con los datos
+        res.render('updateUserForm',{user});
+    } catch (error) {
+        console.error(`Error: ${error}`);
+        throw new Error(error);
+    }
+}
+
+export const updateUser = async (req,res) => {
+    try {
+        const {id} = req.params;
+        const {nombre,passw,email} = req.body;
+        await User.update({
+            nombre,passw,email
+        },{
+            where: {id}
+        });
+        console.log("Usuario actualizado correctamente");
+    } catch (error) {
+        console.error(`Error: ${error}`);
+        throw new Error(error);
+    }
+}

@@ -33,7 +33,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Usuario</th>
+                        <th>Email</th>
                         <th>Contraseña</th>
                         <th>Editar / Borrar</th>
                         <th>Ver mensajes</th>
@@ -45,9 +45,9 @@
                         
                         <td><%= user.id %></td>
                         <td><%= user.nombre %></td>
-                        <td><%= user.passw %></td>
                         <td><%= user.email %></td>
-                        <td> <a href="" class="editar">Editar</a> / <a href="/deleteUser/<%= user.id%>" class="borrar">Borrar</a> </td>
+                        <td><%= user.passw %></td>
+                        <td> <a href="/updateUserForm/<%= user.id %>" class="editar">Editar</a> / <a href="/deleteUser/<%= user.id%>" class="borrar">Borrar</a> </td>
                         <td><a href="" class="mensaje">Mensajes</a></td>
                     </tr>
                     <% }) %>
