@@ -9,7 +9,7 @@ import {User} from './db/models.js';
 
 import routes from './routes/indexRoutes.js';
 import {PORT} from './config.js';
-import { isLogin } from './middlewares/isLogin.js';
+import { isLoginCorrect } from './middlewares/isLogin.js';
 //instanciamos express en app
 const app = express();
 
@@ -37,7 +37,7 @@ app.use('/client',express.static(path.join(__dirname,"/client")));
 app.use(express.json()); //para poder recibir json en el body de las peticiones 
 app.use(express.urlencoded({extended: true})); //para poder recibir datos de formularios. 
 
-passport.use(isLogin); 
+passport.use(isLoginCorrect); 
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {

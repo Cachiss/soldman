@@ -30,10 +30,8 @@ router.get('/', (req, res) => {
 //http methods get
 router.get('/register', getRegister);
 router.get('/login', getLogin);
-router.get('/message',getMessage);
-router.get('/query',getUsers); //Ejemplo de select
-router.get('/message',getMessage);
-router.get('/mostrarUsuarios',getUsers);
+router.get('/message', isLogin, getMessage);
+router.get('/mostrarUsuarios',isLogin, getUsers);
 
 //http methods post
 router.post('/register', isRegister, postRegister);
@@ -44,17 +42,17 @@ router.post('/login', passport.authenticate('local', {
     successRedirect: '/message',
     failureRedirect: '/login',
 }));
-router.post('/message',postMessage);
+router.post('/message', isLogin, postMessage);
 
 //http métodos delete
-router.delete('/deleteUser/:id', deleteUser);
+router.delete('/deleteUser/:id', isLogin, deleteUser);
 
 //metodo get para eliminar un usuario
-router.get('/deleteUser/:id', deleteUser);
+router.get('/deleteUser/:id', isLogin, deleteUser);
 //metodo get para actualizar un usuario
-router.get('/updateUserForm/:id', updateUserForm);
+router.get('/updateUserForm/:id', isLogin, updateUserForm);
 
 //http métodos put
-router.post('/updateUser/:id', updateUser);
+router.post('/updateUser/:id',isLogin, updateUser);
 
 export default router;
