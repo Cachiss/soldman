@@ -37,18 +37,21 @@
                         <th>Contraseña</th>
                         <th>Editar / Borrar</th>
                         <th>Ver mensajes</th>
+                        <th>Dar de baja</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% users.map(user => { %>
+                    <% data.users.map(user => { %>
                     <tr>
                         
                         <td><%= user.id %></td>
                         <td><%= user.nombre %></td>
                         <td><%= user.email %></td>
                         <td><%= user.passw %></td>
-                        <td> <a href="/updateUserForm/<%= user.id %>" class="editar">Editar</a> / <a href="/deleteUser/<%= user.id%>" class="borrar">Borrar</a> </td>
+                        <td> <a href="/updateUserForm/<%= user.id %>" class="editar">Editar</a> / 
+                             <a href="/deleteUser/<%= user.id%>" class="borrar">Borrar</a> </td>
                         <td><a href="" class="mensaje">Mensajes</a></td>
+                        <td><a href="/unsubscribe/<%= user.id %>?status=false">Dar de baja</a></td>
                     </tr>
                     <% }) %>
                 </tbody>
@@ -58,26 +61,27 @@
                 <a href="agregarUsuarios.jsp" class="agregar">Agregar usuarios</a>
             </div>
             <br><br><br>
+
             <h1>Administradores</h1>
             <table class="tabla-administradores">
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>nombre</th>
-                        <th>email</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
                         <th>Contraseña</th>
-                        <th>Editar/ <a href="">Borrar</a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <!-- Mostramos los datos de los usuarios -->
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="" class="borrar">Borrar</a></td>
+                    <% data.admins.map(admin => { %>
+                    <tr>                        
+                        <td><%= admin.id %></td>
+                        <td><%= admin.nombre %></td>
+                        <td><%= admin.email %></td>
+                        <td><%= admin.passw %></td>
+
                     </tr>
+                    <% }) %>
                 </tbody>
             </table>
             <br>
@@ -86,6 +90,45 @@
             </div>
             <br>
             <br>
+
+            <h1>Usuarios dados de baja</h1>
+            <table class="tabla-usuarios">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Contraseña</th>
+                        <th>Editar / Borrar</th>
+                        <th>Ver mensajes</th>
+                        <th>Dar de alta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.unsubscribeUsers.map(user => { %>
+                    <tr>
+                        
+                        <td><%= user.id %></td>
+                        <td><%= user.nombre %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.passw %></td>
+                        <td> <a href="/updateUserForm/<%= user.id %>" class="editar">Editar</a> / 
+                             <a href="/deleteUser/<%= user.id%>" class="borrar">Borrar</a> </td>
+                        <td><a href="" class="mensaje">Mensajes</a></td>
+                        <td><a href="/subscribe/<%= user.id %>?status=true">Dar de alta</a></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <br>
+            <div>
+                <a href="agregarUsuarios.jsp" class="agregar">Agregar usuarios</a>
+            </div>
+            <br><br><br>
+
+            
         </div>  
+
+
     </body>
 </html>

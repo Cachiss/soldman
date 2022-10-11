@@ -1,7 +1,7 @@
 import { sequelize } from "../db/config.db.js";
 
 //importamos los modelos
-import{User,Message} from '../db/models.js';
+import{User,Message, Admin} from '../db/models.js';
 
 
 //http métodos get
@@ -19,8 +19,15 @@ export const getMessage = (req,res) => {
 export const getUsers = async (req,res) => {
     //pasamos los datos a la vista ejs para mostrarlos
     try{
-        const users = await User.findAll();
-        res.render('mostrarUsuarios',{users});
+        //busca los usuarios donde alta sea true
+        const users = await User.findAll({where:{alta:true}});
+        const admins = await Admin.findAll();
+        const unsubscribeUsers = await User.findAll({where: {alta:false}})
+        res.render('mostrarUsuarios',{data:{
+            users,
+            admins,
+            unsubscribeUsers
+        }});
     }
     catch(e){
         console.error(e);
@@ -33,12 +40,13 @@ export const postRegister = async (req, res) => {
     try {
         console.log(req.body);
         res.send('login post');
-        await sequelize.sync({force:true});
+        await sequelize.sync({force:false});
         const {nombre,passw,email} = req.body;
         await User.create({
             nombre,passw,email
         });
         console.log("Datos insertados correctamente")
+        res.redirect('/login');
     } catch (error) {
         console.error(`Error: ${error}`);
     }
@@ -70,6 +78,7 @@ export const deleteUser = async (req,res) => {
         await User.destroy({
             where: {id}
         });
+        res.redirect('/mostrarUsuarios');
         console.log("Usuario eliminado correctamente");
     } catch (error) {
         console.error(`Error: ${error}`);
@@ -95,14 +104,33 @@ export const updateUserForm = async (req,res) => {
 export const updateUser = async (req,res) => {
     try {
         const {id} = req.params;
-        const {nombre,passw,email} = req.body;
+        const {nombre,email,passw} = req.body;
         await User.update({
-            nombre,passw,email
+            nombre,email,passw
         },{
             where: {id}
         });
         console.log("Usuario actualizado correctamente");
+        res.redirect('/mostrarUsuarios');
     } catch (error) {
+        console.error(`Error: ${error}`);
+        throw new Error(error);
+    }
+}
+
+export const subscriptionUser = async (req,res) => {
+    try {
+        const {id} = req.params;
+        const status = req.query.status;
+        await User.update({
+            alta: status
+        },{
+            where: {id}
+        });
+        console.log("Status del usuario actualizado correctamente");
+        res.redirect('/mostrarUsuarios');
+    }
+    catch (error) {
         console.error(`Error: ${error}`);
         throw new Error(error);
     }

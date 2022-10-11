@@ -4,12 +4,17 @@ import path from 'path';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import {Strategy as LocalStrategy} from 'passport-local';
 import {User} from './db/models.js';
 
 import routes from './routes/indexRoutes.js';
 import {PORT} from './config.js';
 import { isLoginCorrect } from './middlewares/isLogin.js';
+
+
+/* //importamos el archivo de configuración de la base de datos
+import { sequelize } from './db/config.db.js';
+sequelize.sync({force: true}); */ 
+
 //instanciamos express en app
 const app = express();
 

@@ -12,6 +12,9 @@ export const isLogin = (req,res,next) => {
 export const isLoginCorrect = new PassportLocal({usernameField:'email'}, async (email, passw, done) => {
     try {
         const user = await User.findOne({where: {email}});
+        if(user.alta === false){
+            return done(null, false, {message: 'Usuario dado de baja'});
+        }
         if (user == null) {
             return done(null, false, {message: 'Email no registrado'});
         }
@@ -21,6 +24,7 @@ export const isLoginCorrect = new PassportLocal({usernameField:'email'}, async (
             return done(null, false, {message: 'Contraseña incorrecta'});
         }
     } catch (error) {
+        console.log('Hubo un error en el query.');
         return done(error);
     }
 });

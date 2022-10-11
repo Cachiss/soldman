@@ -11,7 +11,8 @@ import {
     postMessage,
     deleteUser,
     updateUser,
-    updateUserForm
+    updateUserForm,
+    subscriptionUser
     } 
 from '../controllers/indexController.js';
 
@@ -47,12 +48,17 @@ router.post('/message', isLogin, postMessage);
 //http métodos delete
 router.delete('/deleteUser/:id', isLogin, deleteUser);
 
+
 //metodo get para eliminar un usuario
 router.get('/deleteUser/:id', isLogin, deleteUser);
 //metodo get para actualizar un usuario
 router.get('/updateUserForm/:id', isLogin, updateUserForm);
-
+//metodo get para dar de alta un usuario
+router.get('/subscribe/:id', isLogin, subscriptionUser);
+//método get para dar de baja a un usuario
+router.get('/unsubscribe/:id', isLogin, subscriptionUser);
 //http métodos put
+
 router.post('/updateUser/:id',isLogin, updateUser);
 
 export default router;

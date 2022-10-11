@@ -16,6 +16,10 @@ export const User = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING,
+    },
+    alta:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 },
 {
@@ -43,7 +47,10 @@ export const Admin = sequelize.define('Admin', {
     nombre: {
         type: DataTypes.STRING,
     },
-    password: {
+    email: {
+        type: DataTypes.STRING
+    },
+    passw: {
         type: DataTypes.STRING,
     }},
     {
