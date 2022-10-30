@@ -1,9 +1,12 @@
 {
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "express-flash": "^0.0.2",
+    "express-group-routes": "^1.1.0",
     "express-session": "^1.17.3",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
@@ -16,7 +19,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "sync-database": "node ./db/migrate.js"
   },
   "keywords": [],
   "author": "",

@@ -5,7 +5,7 @@ export const isRegister = async (req, res, next) => {
     const newEmail = req.body.email;
     const user = users.find(user => user.email === newEmail);
     if (user) {
-        res.render('register', { error: 'Usuario ya registrado' });
+        res.render('register', {error: 'El email ya está registrado'});
         console.log('Usuario ya registrado');
     } else {
         next();

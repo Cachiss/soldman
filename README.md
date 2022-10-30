@@ -9,3 +9,6 @@ Para sincronizar los modelos en el index descomentamos el import de sequelize
 y ejecutamos el comando de npm run server para hacer los cambios.
 
 Una vez realizado lo anterior podemos comentarlo de nuevo y continuar tranquilamente. 
+
+Para sincronizar todas las tablas a la base de datos, es necesario 
+correr el comando  "npm run sync-database".

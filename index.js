@@ -4,19 +4,20 @@ import path from 'path';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import {User} from './db/models.js';
+import cors from 'cors';
+import * as dotenv from 'dotenv';
 
+import {User} from './db/models.js';
+import api from './api/api.routes.js';
 import routes from './routes/indexRoutes.js';
-import {PORT} from './config.js';
 import { isLoginCorrect } from './middlewares/isLogin.js';
 
 
-/* //importamos el archivo de configuración de la base de datos
-import { sequelize } from './db/config.db.js';
-sequelize.sync({force: true}); */ 
-
 //instanciamos express en app
 const app = express();
+
+//config dotenv
+dotenv.config();
 
 //creamos dirname para poder usar join y __dirname en un archivo de tipo module
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +35,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(cors());
+const corsOptions = {origin: false}; //para que no se bloquee el cors en el front, en producción lo quitamos
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -54,10 +58,13 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
+app.use(api);
 app.use('/', routes); //para poder usar las rutas de la carpeta routes
 
 
+
 //iniciamos el servidor
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`)
 });
