@@ -68,10 +68,10 @@ api.group("/api/v1", (router) => {
 
     router.post('/createUser',async (req, res) => {
         try{
-            const name = req.body.email;
+            const name = req.body.nombre;
+            const password = req.body.passw;
             const email = req.body.email;
-            const password = req.body.email;
-
+            console.log(name, password, email);
             if(!name || !email || !password) return res.status(400).json({
                 message: 'Something is empty :('
             })
@@ -199,9 +199,9 @@ api.group("/api/v1", (router) => {
         }
     });
 
-    router.post('/createMessage/{id}', async (req, res) => {
+    router.post('/createMessage/user', async (req, res) => {
         try {
-            const id= req.params;
+            const id= req.query.id;
             const message = req.body.message;
             sequelize.sync();
             const user = User.findByPk(id);
@@ -212,7 +212,7 @@ api.group("/api/v1", (router) => {
                 });
             }
             
-            await Message.create({message});
+            await Message.create({message, UserId: id});
             return res.status(200).json({
                 message: 'Message created successfully'
             }); 
