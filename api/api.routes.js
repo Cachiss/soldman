@@ -1,51 +1,39 @@
-//api para crear un nuevo usuario
 import Router from 'express';
 import groupRoutes from 'express-group-routes';
 import { User } from '../db/models.js';
+import { Message } from '../db/models.js';
 import {sequelize} from '../db/config.db.js';
 const api = Router();
 
 
-//api v1 
+//api v1 por si queremos añadir más versiones
 api.group("/api/v1", (router) => {
 
     router.post('/login', async (req, res) => {
-        try {
-            sequelize.sync();
-            const user = await User.findOne({where: {email: req.body.email}});
-            if(user){
-                if(user.email === req.body.email && user.passw === req.body.passw){
-                    //preguntamos si el usuario está activo
+        const email = req.body.email;
+        const password = req.body.passw;
+        if(!email || !password) return res.status(400).json({
+            message: 'Email and password are required'
+        })
 
-                    if(user.alta){
-                        return res.status(200).json({
-                            message: 'User login successfully',
-                            user
-                        });
-                    }
-                    else{//si el usuario no esta activo
-                        return res.status(400).json({
-                            message: 'User not active',
-                        });
-                    }
-
-                }
-                {
-                    return res.status(400).json({
-                        message: 'email or password incorrect'
-                    })
-                }
-            }
-            else{
-                return res.status(404).json({
-                    message: 'User not exists'
-                });
-            }
-
+        try{
+            const user = await User.findOne({where:{email: email }});
             
-
-        } catch (error) {
-            res.status(500).json({message: 'Error'});
+            if(email === user.email && password === user.passw) {
+                return res.status(200).json({
+                    message: 'User login successfully',
+                    user
+                })
+            }
+            return res.status(400).json({
+                message: 'Email or password incorrect'
+            });
+            
+        }
+        catch(error){
+            return res.status(500).json({
+                message: error.message
+            })
         }
     });
 
@@ -80,7 +68,14 @@ api.group("/api/v1", (router) => {
 
     router.post('/createUser',async (req, res) => {
         try{
-            sequelize.sync({force:false});
+            const name = req.body.email;
+            const email = req.body.email;
+            const password = req.body.email;
+
+            if(!name || !email || !password) return res.status(400).json({
+                message: 'Something is empty :('
+            })
+            sequelize.sync({force:false}); 
             //comprobamos que el usuario no exista
             const exists = await User.findOne({ where: { email: req.body.email } });
             if (exists) {
@@ -115,51 +110,116 @@ api.group("/api/v1", (router) => {
         res.status(400).send('User id is required');
     });
 
-    router.delete('/deleteUser', (req, res) => {
-        if(req.query.id){
-            res.status(200).send(`User ${req.query.id} deleted successfully`);
+    router.delete('/deleteUser', async(req, res) => {
+       const id = req.query.id;
 
-        }
-        res.status(400).send('User id is required');
+       if(!id)return res.status(400).json({
+        message: 'User id is required'
+       });
+       
+       try {
+            const user = await user.findByPk(id);
+            if(!user)return res.status(404).json({
+                message: `User (${id}) not found`
+            });
+            
+            await user.destroy(id);
+            return res.status(200).json({
+                message: `User (${id}) deleted`
+            });
+
+       } catch (error) {
+        res.status(400).json({message: error.message})
+       }
+
     });
 
     router.put('/subscribeUser', async (req, res) => {
-        const user = await User.findByPk(req.query.id);
-        if(user){
-            try{
-                user.alta = true;
-                await user.save();
-                return res.status(200).json({
-                    message: "User subscribed successfully",
-                    user
-                });
-            }
-            catch(error){
-                return res.status(500).json({error: error.message});
-            }
+        const id = req.query.id; 
+        //comprobamos que el query se haya pasado por la url
+        if(!id){
+            return res.status(400).json({message:'User id is required'});
         }
-        return res.status(404).json({ message: 'User not found' });
+        
+        //ya comprobamos que el id se pasa por la url, ahora se crea el usuario
+        try{
+            const user = await User.findByPk(id);
+        
+            //evaluamos si el usuario existe
+            if(!user){
+                return res.status(404).json({
+                message: 'User not found'
+            })
+            }
+            if(user.alta === true) return res.status(400).json({
+                message:'User is already subscribed'
+            })
+        
+            await user.update({alta: false});
+            return res.status(200).json({
+                message: 'User subscribed successfully again :)',
+                user
+            });
+        }
+        catch(error){
+            return res.status(400).json({message: error.message})
+        }
+        
     });   
 
     router.put('/unsubscribeUser', async (req, res) => {
-        const user = await User.findByPk(req.query.id);
-        if(user){
-            try{
-                user.alta = false;
-                await user.save();
-                return res.status(200).json({
-                    message: "User unsubscribed successfully",
-                    user
-                });
-            }
-            catch(error){
-                return res.status(500).json({error: error.message});
-            }
+       
+        const id = req.query.id; 
+        if(!id){
+            return res.status(400).json({message:'User id is required'});
         }
-        return res.status(404).json({ message: 'User not found' });
+        
+        //ya comprobamos que el id se pasa por la url, ahora se crea el usuario
+        try{
+            const user = await User.findByPk(id);
+        
+            //evaluamos si el usuario existe
+            if(!user){
+                return res.status(404).json({
+                message: 'User not found'
+            })
+            }
+            if(user.alta === false) return res.status(400).json({
+                message:'User is already unsubscribed'
+            })
+        
+            await user.update({alta: false});
+            return res.status(200).json({
+                message: 'User unsubscribed successfully',
+                user
+            });
+        }
+        catch(error){
+            return res.status(400).json({message: error.message})
+        }
     });
 
-    
+    router.post('/createMessage/{id}', async (req, res) => {
+        try {
+            const id= req.params;
+            const message = req.body.message;
+            sequelize.sync();
+            const user = User.findByPk(id);
+            
+            if(!user){
+                return res.status(404).json({
+                    message: 'User not found'
+                });
+            }
+            
+            await Message.create({message});
+            return res.status(200).json({
+                message: 'Message created successfully'
+            }); 
+        } catch (error) {
+            return res.status(400).json({message:error.message})
+        }
+    });
 });
 
 export default api;

@@ -16,7 +16,7 @@ import { isLoginCorrect } from './middlewares/isLogin.js';
 //instanciamos express en app
 const app = express();
 
-//config dotenv
+//configuramos dotenv para leer el .env
 dotenv.config();
 
 //creamos dirname para poder usar join y __dirname en un archivo de tipo module
@@ -29,7 +29,7 @@ app.set('view engine', 'ejs');
 app.set('views', './client');
 
 //middlewares
-app.use(cookieParser('secret'));
+app.use(cookieParser('secret')); 
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -58,12 +58,12 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-app.use(api);
+app.use(api); ///usamos las rutas de la api
 app.use('/', routes); //para poder usar las rutas de la carpeta routes
 
 
 
-//iniciamos el servidor
+//escuchamos en el puerto del .env
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`)
