@@ -1,9 +1,9 @@
 import { sequelize } from "../db/config.db.js";
 
 //importamos los modelos
-import{User,Message, Admin} from '../db/models.js';
-
-
+import{User} from '../db/Models/User.js';
+import {Message} from '../db/Models/Message.js';
+import {Admin} from '../db/Models/Admin.js';
 //http métodos get
 export const getRegister = (req, res) => {
     res.render('register');
@@ -39,7 +39,10 @@ export const getUsers = async (req,res) => {
 export const postRegister = async (req, res) => {
     try {
         console.log(req.body);
-        res.send('login post');
+        //comprobamos que el usuario no exista
+        const user = await User.findOne({where:{email:req.body.email}});
+        if(user) return res.redirect('/register');
+        
         await sequelize.sync({force:false});
         const {nombre,passw,email} = req.body;
         await User.create({

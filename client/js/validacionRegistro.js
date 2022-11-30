@@ -29,9 +29,3 @@ function validar(){
 
     return bandera;
 }
-    
-
-
-
-
-

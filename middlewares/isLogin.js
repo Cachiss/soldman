@@ -1,4 +1,4 @@
-import {User} from '../db/models.js';
+import {User} from '../db/Models/User.js';
 import PassportLocal from 'passport-local';
 import {Strategy as LocalStrategy} from 'passport-local';
 
@@ -11,18 +11,10 @@ export const isLogin = (req,res,next) => {
 
 export const isLoginCorrect = new PassportLocal({usernameField:'email'}, async (email, passw, done) => {
     try {
-        const user = await User.findOne({where: {email}});
-        if(user.alta === false){
-            return done(null, false, {message: 'Usuario dado de baja'});
-        }
-        if (user == null) {
-            return done(null, false, {message: 'Email no registrado'});
-        }
-        if (user.passw === passw) {
-            return done(null, user);
-        } else {
-            return done(null, false, {message: 'Contraseña incorrecta'});
-        }
+        const user = await User.findOne({where:{email:email}});
+        if(!user) return done(null, false, {message: 'Usuario no encontrado'});
+        if(!user.validPassword(passw)) return done(null, false, {message: 'Contraseña incorrecta'});
+        return done(null, user);
     } catch (error) {
         console.log('Hubo un error en el query.');
         return done(error);

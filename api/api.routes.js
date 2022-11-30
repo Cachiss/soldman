@@ -1,7 +1,8 @@
 import Router from 'express';
 import groupRoutes from 'express-group-routes';
-import { User } from '../db/models.js';
-import { Message } from '../db/models.js';
+import { User } from '../db/Models/User.js';
+import { Message } from '../db/Models/Message.js';
+import { Admin } from '../db/Models/Admin.js';
 import {sequelize} from '../db/config.db.js';
 const api = Router();
 
@@ -40,7 +41,6 @@ api.group("/api/v1", (router) => {
     //get all users
     router.get('/getAllusers', async (req, res) => {
         try {
-            sequelize.sync({force:false});
             const users = await User.findAll();
             return res.status(200).json(users);
         } catch (error) {
@@ -94,7 +94,6 @@ api.group("/api/v1", (router) => {
     router.put('/updateUser', async (req, res) => {
         if(req.query.id){
             try {
-                sequelize.sync({force:false});
                 const [updated] = await User.update(req.body, {
                     where: { id: req.query.id }
                 });

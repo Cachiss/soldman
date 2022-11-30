@@ -5,13 +5,13 @@ import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import * as dotenv from 'dotenv';
 
-import {User} from './db/models.js';
+import {User} from './db/Models/User.js';
 import api from './api/api.routes.js';
 import routes from './routes/indexRoutes.js';
 import { isLoginCorrect } from './middlewares/isLogin.js';
-
 
 //instanciamos express en app
 const app = express();
@@ -39,19 +39,46 @@ app.use(session({
 app.use(cors());
 const corsOptions = {origin: false}; //para que no se bloquee el cors en el front, en producción lo quitamos
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use('/client',express.static(path.join(__dirname,"/client")));
 app.use(express.json()); //para poder recibir json en el body de las peticiones 
 app.use(express.urlencoded({extended: true})); //para poder recibir datos de formularios. 
 
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(isLoginCorrect); 
-
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: 'http://localhost:3005/auth/google/callback',
+    scope: ['profile', 'email'],
+    passReqToCallback: true
+    }, async (request, accessToken, refreshToken, profile, done) => {
+        const newUser = {
+            name: profile.displayName,
+            email: profile.email,
+            password: profile.id,
+            googleId: profile.id
+        }
+        try {
+            let user = await User .findOne({
+                googleId: profile.id
+            })
+            if (user) {
+                done(null, user);
+            } else {
+                user = await User.create(newUser);
+                done(null, user);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+));
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
     try {
         const user = await User.findByPk(id);
+        if(!user) return done(null, false, {message: 'Usuario no encontrado'});
         return done(null, user);
     } catch (error) {
         return done(error);

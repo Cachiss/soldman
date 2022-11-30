@@ -57,6 +57,13 @@ router.get('/updateUserForm/:id', isLogin, updateUserForm);
 router.get('/subscribe/:id', isLogin, subscriptionUser);
 //método get para dar de baja a un usuario
 router.get('/unsubscribe/:id', isLogin, subscriptionUser);
+
+//google auth
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google/callback', passport.authenticate('google', {
+    successRedirect: '/message',
+    failureRedirect: '/login',
+    }));
 //http métodos put
 
 router.post('/updateUser/:id',isLogin, updateUser);
