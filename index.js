@@ -55,9 +55,8 @@ passport.use(new GoogleStrategy({
     }, async (request, accessToken, refreshToken, profile, done) => {
         const newUser = {
             name: profile.displayName,
+            passw: profile.id,
             email: profile.email,
-            password: profile.id,
-            googleId: profile.id
         }
         try {
             let user = await User .findOne({
