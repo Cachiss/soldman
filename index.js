@@ -53,20 +53,20 @@ passport.use(new GoogleStrategy({
     scope: ['profile', 'email'],
     passReqToCallback: true
     }, async (request, accessToken, refreshToken, profile, done) => {
+
+        console.log("paso por aqui google");
         const newUser = {
-            name: profile.displayName,
+            nombre: profile.displayName,
             passw: profile.id,
             email: profile.email,
         }
         try {
-            let user = await User .findOne({
-                googleId: profile.id
-            })
-            if (user) {
+            const user = await User.findOne({where: {email: newUser.email}});
+            if(user){
                 done(null, user);
-            } else {
-                user = await User.create(newUser);
-                done(null, user);
+            }else{
+                const user2 = await User.create(newUser);
+                done(null, user2);
             }
         } catch (error) {
             console.log(error);
@@ -86,7 +86,6 @@ passport.deserializeUser(async (id, done) => {
 
 app.use(api); ///usamos las rutas de la api
 app.use('/', routes); //para poder usar las rutas de la carpeta routes
-
 
 
 //escuchamos en el puerto del .env

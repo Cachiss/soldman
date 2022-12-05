@@ -61,8 +61,8 @@ router.get('/unsubscribe/:id', isLogin, subscriptionUser);
 //google auth
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/auth/google/callback', passport.authenticate('google', {
-    successRedirect: '/message',
-    failureRedirect: '/login',
+    successRedirect: 'http://localhost:3000/dashboard',
+    failureRedirect: 'http://localhost:3000/login',
     }));
 //http métodos put
 

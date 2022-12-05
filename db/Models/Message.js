@@ -6,7 +6,13 @@ export const Message = sequelize.define('Messages', {
         primaryKey: true,
         autoIncrement: true
     },
+    title: {
+        type: DataTypes.STRING,
+    },
     message: {
         type: DataTypes.STRING,
+    },
+    id_user: {
+        type: DataTypes.INTEGER,
     }
 });
